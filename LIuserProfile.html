@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
+  <link rel="stylesheet" href="https://v40.pingendo.com/assets/4.0.0/default/theme.css" type="text/css">
+  <script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script type="text/javascript">
+    var obj;
+    var obj1;
+    var postIdInOrder;
+    var idCount = 0;
+    var userId = location.href.match(/([^\/]*)\/*$/)[1];
+    function upDateFields(){
+      $.get("/data/users/"+userId, function(result){
+        obj = JSON.parse(JSON.stringify(result));
+        document.getElementById("username").innerHTML+=obj.UserName;
+        document.getElementById("name").innerHTML+=obj.FirstName+' '+obj.LastName;
+        document.getElementById("rank").innerHTML+= obj.Rank;
+        if(obj.Image){
+          document.getElementById("img").src=obj.Image;
+        }
+	document.getElementById("follow-form").action="/follow/"+obj.User_ID;
+	$.get("/data/follow/"+obj.User_ID, function(res){
+		if(res=="true"){
+        		document.getElementById("follow").value = "unfollow";
+        		document.getElementById("follow").innerHTML = "Unfollow";
+		} 
+	});
+      });
+    
+        
+    
+      $.get("/data/pagePost/" + userId, function(res){
+        obj1 = JSON.parse(JSON.stringify(res));
+        var i = obj1.length - 1;
+        postIdInOrder = new Array(obj1.length);
+        document.getElementById("title0").innerHTML = obj1[i].Title;
+        document.getElementById("date0").innerHTML = obj1[i].DateTime;
+        document.getElementById("content0").innerHTML = obj1[i].Content;
+        document.getElementById("thumbUp0").innerHTML = "  " + obj1[i].ThumbsUp;
+        document.getElementById("thumbDown0").innerHTML = "  " + obj1[i].ThumbsDown;
+          if(obj1[i].Image){//if no image, use default
+        document.getElementById("newsImage0").src = obj1[i].Image;
+          }
+          document.getElementById("comments0").innerHTML = "  " + obj1[i].Comments;
+        postIdInOrder[idCount] = Number(obj1[i].Post_ID);
+        --i;
+      for(i; i >= 0 ; --i){  
+          ++idCount;
+    
+          $( ".targetElement").clone().appendTo(".userPosts");
+    
+        document.getElementById("title0").innerHTML = obj1[i].Title;
+        document.getElementById("date0").innerHTML = obj1[i].DateTime;
+        document.getElementById("content0").innerHTML = obj1[i].Content;
+        document.getElementById("thumbUp0").innerHTML = "  " + obj1[i].ThumbsUp;
+        document.getElementById("thumbDown0").innerHTML = "  " + obj1[i].ThumbsDown;
+          if(obj1[i].Image){//if no image, use default
+        document.getElementById("newsImage0").src = obj1[i].Image;
+          }
+      // document.getElementById("buttonToPress").onclick = commentSection1;
+          
+          document.getElementById("comments0").innerHTML = "  " + obj1[i].Comments;
+          postIdInOrder[idCount] = Number(obj1[i].Post_ID);
+         
+
+          switch(idCount){
+            case 1:
+              document.getElementById("buttonToPress").onclick = commentSection1;
+              break;
+            case 2:
+              document.getElementById("buttonToPress").onclick = commentSection2;
+              break;
+            case 3:
+              document.getElementById("buttonToPress").onclick = commentSection3;
+              break;
+            case 4:
+              document.getElementById("buttonToPress").onclick = commentSection4;
+              break;
+            case 5:
+              document.getElementById("buttonToPress").onclick = commentSection5;
+              break;
+            case 6:
+              document.getElementById("buttonToPress").onclick = commentSection6;
+              break;
+            case 7:
+              document.getElementById("buttonToPress").onclick = commentSection7;
+              break;
+            case 8:
+              document.getElementById("buttonToPress").onclick = commentSection8;
+              break;
+            case 9:
+              document.getElementById("buttonToPress").onclick = commentSection9;
+              break;
+              case 10:
+              document.getElementById("buttonToPress").onclick = commentSection10;
+              break;
+              case 11:
+              document.getElementById("buttonToPress").onclick = commentSection11;
+              break;
+              case 12:
+              document.getElementById("buttonToPress").onclick = commentSection12;
+              break;
+              case 13:
+              document.getElementById("buttonToPress").onclick = commentSection13;
+              break;
+              case 14:
+              document.getElementById("buttonToPress").onclick = commentSection14;
+              break;
+              case 15:
+              document.getElementById("buttonToPress").onclick = commentSection15;
+              break;
+              
+
+            default:
+              break;
+          }
+    
+          //document.getElementById("comments0").onclick = 
+    
+    
+         
+      }
+    
+    
+    //function commentSection0(){
+    //var finalID = obj1;
+    //window.location.href = "http://ec2-52-53-167-114.us-west-1.compute.amazonaws.com/newsComment/" + finalID;
+    //}        
+    
+    
+         // var myTitle = document.getElementsByName("postTitle");
+            
+    
+         /*document.getElementById("title" + i).innerHTML = obj1[i].Title;
+          document.getElementById("date" + i).innerHTML = obj1[i].DateTime;
+          document.getElementById("content" + i).innerHTML = obj1[i].Content;
+          document.getElementById("thumbUp" + i).innerHTML = "  " + obj1[i].ThumbsUp;
+          document.getElementById("thumbDown" + i).innerHTML = "  " + obj1[i].ThumbsDown;
+          if(obj1[i].Image){//if no image, use default
+            document.getElementById("newsImage" +i).src = obj1[i].Image;
+          }
+          document.getElementById("comments" +i).innerHTML = "  " + obj1[i].Comments;
+        */
+         // end of else statement
+      // end of for loop
+      })
+    
+    }
+    
+    
+    function commentSection0(){
+     var finalID = postIdInOrder[0];
+    window.location.href = "http://ec2-52-53-167-114.us-west-1.compute.amazonaws.com/userComment/" + finalID  }
+    function commentSection1(){
+    var finalID = postIdInOrder[1];
+    window.location.href = "http://ec2-52-53-167-114.us-west-1.compute.amazonaws.com/userComment/" + finalID;}
+    function commentSection2(){
+    var finalID = postIdInOrder[2];
+    window.location.href = "http://ec2-52-53-167-114.us-west-1.compute.amazonaws.com/userComment/" + finalID;}
+    function commentSection3(){
+    var finalID = postIdInOrder[3];
+    window.location.href = "http://ec2-52-53-167-114.us-west-1.compute.amazonaws.com/userComment/" + finalID;}
+    function commentSection4(){
+    var finalID = postIdInOrder[4];
+    window.location.href = "http://ec2-52-53-167-114.us-west-1.compute.amazonaws.com/userComment/" + finalID;}
+    function commentSection5(){
+    var finalID = postIdInOrder[5];
+    window.location.href = "http://ec2-52-53-167-114.us-west-1.compute.amazonaws.com/userComment/" + finalID;}
+    function commentSection6(){
+    var finalID = postIdInOrder[6];
+    window.location.href = "http://ec2-52-53-167-114.us-west-1.compute.amazonaws.com/userComment/" + finalID;}
+    function commentSection7(){
+    var finalID = postIdInOrder[7];
+    window.location.href = "http://ec2-52-53-167-114.us-west-1.compute.amazonaws.com/userComment/" + finalID;
+    }
+    function commentSection8(){
+    var finalID = postIdInOrder[8];
+    window.location.href = "http://ec2-52-53-167-114.us-west-1.compute.amazonaws.com/userComment/" + finalID;
+    }
+    function commentSection9(){
+    var finalID = postIdInOrder[9];
+    window.location.href = "http://ec2-52-53-167-114.us-west-1.compute.amazonaws.com/userComment/" + finalID;}
+    function commentSection10(){
+    var finalID = postIdInOrder[10];
+    window.location.href = "http://ec2-52-53-167-114.us-west-1.compute.amazonaws.com/userComment/" + finalID;}
+  function commentSection11(){
+    var finalID = postIdInOrder[11];
+    window.location.href = "http://ec2-52-53-167-114.us-west-1.compute.amazonaws.com/userComment/" + finalID;}
+  function commentSection12(){
+    var finalID = postIdInOrder[12];
+    window.location.href = "http://ec2-52-53-167-114.us-west-1.compute.amazonaws.com/userComment/" + finalID;}
+  function commentSection13(){
+    var finalID = postIdInOrder[13];
+    window.location.href = "http://ec2-52-53-167-114.us-west-1.compute.amazonaws.com/userComment/" + finalID;}
+  function commentSection14(){
+    var finalID = postIdInOrder[14];
+    window.location.href = "http://ec2-52-53-167-114.us-west-1.compute.amazonaws.com/userComment/" + finalID;}
+  function commentSection15(){
+    var finalID = postIdInOrder[15];
+    window.location.href = "http://ec2-52-53-167-114.us-west-1.compute.amazonaws.com/userComment/" + finalID;}
+  </script>
+  <style>
+    #space {
+      padding-top: 50px;
+    }
+
+    #newsImage0 {
+      height: 200px;
+      width: 200px;
+    }
+  </style>
+</head>
+
+<body onload="upDateFields()">
+  <nav class="navbar navbar-expand-md bg-primary navbar-dark">
+    <div class="container">
+      <a class="navbar-brand">
+        <i class="fa d-inline fa-lg fa-cloud"></i>
+        <b class="px-1">Xomic comiX</b>
+      </a>
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbar2SupportedContent">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse text-center justify-content-end" id="navbar2SupportedContent">
+        <form class="form-inline m-0">
+          <a class="nav-link" href="http://ec2-52-53-167-114.us-west-1.compute.amazonaws.com/">
+            <font color="black"> NewsFeed </font>
+          </a>
+          <a class="nav-link" href="/comics">
+            <font color="black"> Comics </font>
+          </a>
+          <a class="nav-link" href="/me" id="profile-link">
+            <font color="black"> Profile </font>
+          </a>
+        </form>
+        <form class="form-inline m-0" id="search-form" method="POST" action="/search">
+          <input class="form-control mr-2" type="text" name="query" placeholder="Search">
+          <button class="btn btn-warning" type="submit">Search</button>
+        </form>
+        <a class="btn navbar-btn ml-2 text-white btn-secondary" href="/logout">
+          <i class="fa d-inline fa-lg fa-user-circle-o"></i> Logout</a>
+      </div>
+    </div>
+  </nav>
+  <div class="py-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4">
+          <div class="card">
+            <img class="card-img-top" id="img" src="https://us.123rf.com/450wm/jemastock/jemastock1705/jemastock170505550/77853721-silhouette-head-boy-anime-avatar-image-vector-illustration.jpg?ver=6" alt="Card image cap">
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item" id="username">USERNAME: </li>
+              <li class="list-group-item" id="name">Name: </li>
+              <li class="list-group-item" id="rank">Rank: </li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-md-4 w-100">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <form action="" method="POST" id="follow-form">
+                        <button type="submit" class="btn btn-outline-primary" name="action" value="follow" id="follow">Follow</button>
+                      </form>
+                    </div>
+                    <div class="col-md-6"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <a href="#" class="btn btn-outline-primary w-75 my-3" onclick="document.getElementById('id01').style.display='block'" style="position: absolute; left: .2%;">Post</a>
+
+                  
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-4"></div>
+                <div class="col-md-4"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-8"></div>
+      </div>
+    </div>
+
+
+    <div id="space"> </div>
+    <div class="userPosts">
+      <div class="targetElement">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-8">
+              <div class="card">
+                <div class="card-body">
+                  <h3 id="title0" name="postTitle">Awful Lonely Down Here...</h3>
+                  <h6 class="text-muted" id="date0" name="postDate">Date/Time</h6>
+                  <p id="content0">Is an empty page really how you want to be remembered?</p>
+                  <button type="button" class="btn btn-default btn-sm">
+                    <span class="fa fa-thumbs-o-up" id="thumbUp0" name="postUp"></span>
+                  </button>
+                  <button type="button" class="btn btn-default btn-sm">
+                    <span class="fa fa-thumbs-o-down" id="thumbDown0" name="postDown"></span>
+                  </button>
+                  <button type="button" id="buttonToPress" onclick="commentSection0()" class="btn btn-default btn-sm">
+                    <span title="Comments" class="fa fa-plus-square-o" id="comments0" name="postComments"></span>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <img id="newsImage0" class="img-fluid d-block" src="https://thumbs.dreamstime.com/b/happy-smiling-cartoon-student-boy-holding-white-blank-sign-pupil-high-above-his-head-empty-board-order-to-leave-77904276.jpg" name="postImage"> </div>
+          </div>
+        </div>
+        <div id="space"> </div>
+      </div>
+    </div>
+  </div>
+  <div class="py-5 bg-dark text-white">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-9">
+          <div class="blockquote">
+            <p class="mb-0">LeftOvers</p>
+            <div class="blockquote-footer text-white">Someone once told me we would rule the world; We told them screw that, we dont want this world</div>
+          </div>
+        </div>
+        <div class="col-4 col-md-1 align-self-center">
+          <a href="https://www.facebook.com" target="_blank">
+            <i class="fa fa-fw fa-facebook fa-3x text-white"></i>
+          </a>
+        </div>
+        <div class="col-4 col-md-1 align-self-center">
+          <a href="https://twitter.com" target="_blank">
+            <i class="fa fa-fw fa-twitter fa-3x text-white"></i>
+          </a>
+        </div>
+        <div class="col-4 col-md-1 align-self-center">
+          <a href="https://www.instagram.com" target="_blank">
+            <i class="fa fa-fw fa-instagram text-white fa-3x"></i>
+          </a>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12 mt-3 text-center">
+          <p>� Copyright 2018 LeftOvers LLC- All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+      <div class="">
+    <div class="container">
+      <div class="row">
+        <div class="modal" id="id01">
+          <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">×</span>
+
+
+
+
+
+
+
+
+
+          <form class="modal-content" method="POST">
+            <div class="container">
+              <h1>Post To You're Page!</h1>
+              <p>Please fill in this form to create an post</p>
+              <hr>
+              <label for="Title">
+                <b>Title</b>
+              </label>
+              <input type="textt" placeholder="Enter title" name="title" required="">
+              <label for="Title">
+                <b>Image</b>
+
+              </label>
+               
+              <input type="textt" placeholder="Enter Image URL" name="image" required="">
+              
+              
+              <br>
+              <textarea rows="6" cols="99" placeholder="Enter text" title="What's on you're mind?" name="btext" required=""> </textarea>
+              <p>By posting you agree to our
+                <a href="#" style="color:dodgerblue">Terms &amp; Privacy</a>.</p>
+              <div class="clearfix">
+                <button type="button" class="cancelbtn" onclick="document.getElementById('id01').style.display='none'">Cancel</button>
+                <button type="submit" class="signupbtn">Post!</button>
+              </div>
+            </div>
+          </form>
+        </div>
+        <script>
+          // Get the modal
+            var modal = document.getElementById('id01');
+            
+            // When the user clicks anywhere outside of the modal, close it
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        </script>
+      </div>
+    </div>
+  </div>
+ 
+
+  
+</body>
+
+</html>
