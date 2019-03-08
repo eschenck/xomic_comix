@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
+  <link rel="stylesheet" href="https://v40.pingendo.com/assets/4.0.0/default/theme.css" type="text/css">
+  <script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script type="text/javascript">
+    var maxID=50;
+    var obj;
+    var obj2;
+    var arr = [];
+    while(arr.length < 6){
+        var randomnumber = Math.floor(Math.random()*maxID) + 1;
+        if(arr.indexOf(randomnumber) > -1) continue;
+        arr[arr.length] = randomnumber;
+    }
+    function upDateFields(){
+      var currentID = parseInt(location.href.match(/([^\/]*)\/*$/)[1]);
+    	var address = "/data/"+location.href.match(/([^\/]*)\/*$/)[1];
+    	$.get(address, function(result){
+    		obj = JSON.parse(JSON.stringify(result));
+     		document.getElementById("comic-name").innerHTML=obj.ComicName+"#"+obj.Issue+"<p>"+obj.Title;
+     		document.getElementById("reviews").innerHTML+=" "+obj.FiveStarReview;
+     		document.getElementById("publisher").innerHTML+= obj.PublisherName;
+     		document.getElementById("datePublished").innerHTML+= obj.DatePublished;
+     		document.getElementById("synopsis").innerHTML= obj.SpoilerFreeDescription;
+     		document.getElementById("mainImage").src = obj.Image;
+		document.getElementById("plot").innerHTML= obj.Synopsis;
+		
+		
+    	});
+	$.get('/data/author/'+currentID, function(res){
+		var write = [];
+		write = JSON.parse(res);
+		write.forEach(function(item, index){
+			document.getElementById("author").innerHTML+= item.FirstName+" "+item.LastName+"<br>";
+		});
+		
+	});
+	$.get('/data/illustrator/'+currentID, function(res){
+		var draw = [];
+		draw = JSON.parse(res);
+		draw.forEach(function(item, index){
+			document.getElementById("illustrator").innerHTML+= item.FirstName+" "+item.LastName+"<br>";
+		});
+	});
+	$.get('/data/colourist/'+currentID, function(res){
+		var paint = [];
+		paint = JSON.parse(res);
+		paint.forEach(function(item, index){
+			document.getElementById("colourist").innerHTML+= item.FirstName+" "+item.LastName+"<br>";
+		});
+		
+	});
+    	if(currentID>1){
+    		document.getElementById("prevBtn").href = "http://ec2-52-53-167-114.us-west-1.compute.amazonaws.com/comic/"+(currentID-1);
+    	}
+    	if(currentID<maxID){
+    		document.getElementById("nextBtn").href = "http://ec2-52-53-167-114.us-west-1.compute.amazonaws.com/comic/"+(currentID+1);
+    	}
+    	var i;
+    	for(i=0; i<6; i++){
+    		document.getElementById("BLink"+(i+1)).href="http://ec2-52-53-167-114.us-west-1.compute.amazonaws.com/comic/"+arr[i];
+    	}
+    	$.get('/data/'+arr[0], function(result){
+    		obj2=JSON.parse(JSON.stringify(result));
+    		document.getElementById("BImage1").src = obj2.Image;
+    	});
+    	$.get('/data/'+arr[1], function(result){
+    		obj2=JSON.parse(JSON.stringify(result));
+    		document.getElementById("BImage2").src = obj2.Image;
+    	});
+    	$.get('/data/'+arr[2], function(result){
+    		obj2=JSON.parse(JSON.stringify(result));
+    		document.getElementById("BImage3").src = obj2.Image;
+    	});
+    	$.get('/data/'+arr[3], function(result){
+    		obj2=JSON.parse(JSON.stringify(result));
+    		document.getElementById("BImage4").src = obj2.Image;
+    	});
+    	$.get('/data/'+arr[4], function(result){
+    		obj2=JSON.parse(JSON.stringify(result));
+    		document.getElementById("BImage5").src = obj2.Image;
+    	});
+    	$.get('/data/'+arr[5], function(result){
+    		obj2=JSON.parse(JSON.stringify(result));
+    		document.getElementById("BImage6").src = obj2.Image;
+    	});
+    }
+  </script>
+  <style>
+  a {
+      text-decoration: none;
+      display: inline-block;
+      padding: 8px 16px;
+    }
+
+    a:hover {
+      background-color: #ddd;
+      color: black;
+    }
+
+    .previous {
+      background-color: #0AB9B9;
+      color: white;
+    }
+
+    .next {
+      background-color: #0AB9B9;
+      float: right;
+      color: white;
+    }
+  }
+  </style>
+</head>
+
+<body onload=upDateFields()>
+  <nav class="navbar navbar-expand-md bg-primary navbar-dark">
+    <div class="container">
+      <a class="navbar-brand">
+        <i class="fa d-inline fa-lg fa-cloud"></i>
+        <b class="px-1">Xomic comiX</b>
+      </a>
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbar2SupportedContent">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse text-center justify-content-end" id="navbar2SupportedContent">
+        <form class="form-inline m-0">
+          <a class="nav-link" href="http://ec2-52-53-167-114.us-west-1.compute.amazonaws.com/">
+            <font color="black"> NewsFeed </font>
+          </a>
+          <a class="nav-link" href="/comics">
+            <font color="black"> Comics </font>
+          </a>
+          <a class="nav-link" href="/me">
+            <font color="black"> Profile </font>
+          </a>
+	  </form>
+	<form class="form-inline m-0" id="search-form" method="POST" action="/search">  
+          <input class="form-control mr-2" type="text" name="query" placeholder="Search">
+          <button class="btn btn-warning" type="submit">Search</button>
+        </form>
+        <a class="btn navbar-btn ml-2 text-white btn-secondary" href="/login">
+          <i class="fa d-inline fa-lg fa-user-circle-o"></i> Sign in</a>
+      </div>
+    </div>
+  </nav>
+
+
+ <div class="p-0 filter-dark" style="background-image: url('https://www.frontiersin.org/files/Articles/46474/fpsyg-04-00186-HTML/image_m/fpsyg-04-00186-g001.jpg');">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h1 class="display-1 text-center">COMICS</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+  <div class="bg-light py-3">
+    <div class="container">
+      <div class="row">
+        <div class="text-center border col-lg-12" style="background-image: url(&quot;C:/Users/Matthew/Desktop/asdsadsad.png&quot;);"> </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <img class="img-fluid d-block ml-1 mx-auto p-2" src="" width="400" height="100" alt="Error 404" id="mainImage">
+          <div class="card">
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item p-1">
+                <p id="author">Author(s):<br></p>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-start p-1">
+                <p class="text-left" id="publisher">Publisher:<br></p>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-start p-1">
+                <p class="text-left" id="datePublished">Published:<br></p>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-start p-1">
+		<p class="text-left" id="illustrator">Illustrator(s):<br></p>
+	      </li>
+              <li class="list-group-item d-flex justify-content-between align-items-start p-1">
+		<p class="text-left" id="colourist">Colourist(s):<br></p>
+	      </li>
+            </ul>
+            <div class="card-body p-1">
+              <p id="reviews">Rating:&nbsp;</p>
+              <center></center>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-8">
+          <div class="my-3 col-md-12">
+            <div class="row">
+              <div class="col-md-12">
+                <h1 class="pb-4 text-secondary text-center bg-warning" id="comic-name">COMIC NAME HERE</h1>
+              </div>
+            </div>
+            <h1 class="">Synopsis:</h1>
+            <p id="synopsis">Here is the summary of the comic book</p>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <h1 class="">*SPOILERS*</h1>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+            <div id = "spoiler" style="display:none">
+              <p class="spoilers" id="plot">Dont read this you monster,&nbsp;
+                <br>
+                <br>youre still reading arent you? I told you to stop
+                <br>
+                <br>please?
+                <br>
+                <br>I hate you</p>
+            </div>
+            <button title="Click to show/hide content" type="button" onclick="if(document.getElementById('spoiler') .style.display=='none') {document.getElementById('spoiler') .style.display=''}else{document.getElementById('spoiler') .style.display='none'}">Show/hide</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="align-self-center text-md-right text-center col-md-12">
+          <img class="img-fluid d-block ml-1 mx-auto p-2" src=""> </div>
+      </div>
+      <center> </center>
+    </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="row">
+            <div class="col-md-6">
+              <a href="http://ec2-52-53-167-114.us-west-1.compute.amazonaws.com/comic/1" class="previous" id="prevBtn">« Previous</a>
+            </div>
+            <div class="col-md-6">
+              <a href="http://ec2-52-53-167-114.us-west-1.compute.amazonaws.com/comic/10" class="next" id="nextBtn">Next »</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="bg-secondary py-2">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="p-0 col-md-2 col-6">
+          <a href="stories.html" id="BLink1">
+            <img class="img-fluid d-block ml-1 mx-auto p-2" id="BImage1" src="https://s3-us-west-1.amazonaws.com/leftoversclient/Deadpool_1.jpg" width="200" height="100" alt="Error 404"> </a>
+        </div>
+        <div class="p-0 col-md-2 col-6">
+          <a href="stories.html" id="BLink2">
+            <img class="img-fluid d-block ml-1 mx-auto p-2" id="BImage2" src="https://s3-us-west-1.amazonaws.com/leftoversclient/Batman+rebirth+vol.1+i+am+gotham.jpg" width="200" height="100" alt="Error 404"> </a>
+        </div>
+        <div class="p-0 col-md-2 col-6">
+          <a href="stories.html" id="BLink3">
+            <img class="img-fluid d-block ml-1 mx-auto p-2" id="BImage3" src="https://s3-us-west-1.amazonaws.com/leftoversclient/Superman+rebirt+vol.1+son+of+superman.jpg" width="200" height="100" alt="Error 404"> </a>
+        </div>
+        <div class="p-0 col-md-2 col-6">
+          <a href="stories.html" id="BLink4">
+            <img class="img-fluid d-block ml-1 mx-auto p-2" id="BImage4" src="https://s3-us-west-1.amazonaws.com/leftoversclient/captainAmerica_695.jpg" width="200" height="100" alt="Error 404"> </a>
+        </div>
+        <div class="p-0 col-md-2 col-6">
+          <a href="stories.html" id="BLink5">
+            <img class="img-fluid d-block ml-1 mx-auto p-2" id="BImage5" src="https://s3-us-west-1.amazonaws.com/leftoversclient/SpiderMan_570.jpg" width="200" height="100" alt="Error 404"> </a>
+        </div>
+        <div class="p-0 col-md-2 col-6">
+          <a href="stories.html" id="BLink6">
+            <img class="img-fluid d-block ml-1 mx-auto p-2" id="BImage6" src="https://s3-us-west-1.amazonaws.com/leftoversclient/Deadpool_34.jpg" width="200" height="100" alt="Error 404"> </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="bg-dark text-white py-3">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-9">
+          <p class="lead">Sign up to our newsletter for the latest news</p>
+          <form class="form-inline">
+            <div class="form-group">
+              <input type="email" class="form-control" placeholder="Your e-mail here"> </div>
+            <button type="submit" class="btn btn-primary ml-3">Subscribe</button>
+          </form>
+        </div>
+        <div class="col-4 col-md-1 align-self-center">
+          <a href="https://www.facebook.com" target="_blank">
+            <i class="fa fa-fw fa-facebook fa-3x text-white"></i>
+          </a>
+        </div>
+        <div class="col-4 col-md-1 align-self-center">
+          <a href="https://twitter.com" target="_blank">
+            <i class="fa fa-fw fa-twitter fa-3x text-white"></i>
+          </a>
+        </div>
+        <div class="col-4 col-md-1 align-self-center">
+          <a href="https://www.instagram.com" target="_blank">
+            <i class="fa fa-fw fa-instagram text-white fa-3x"></i>
+          </a>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12 mt-3 text-center">
+          <p>? Copyright 2017 LeftOversLLC- All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
