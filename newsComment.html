@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
+  <link rel="stylesheet" href="https://v40.pingendo.com/assets/4.0.0/default/theme.css" type="text/css"> 
+	 <script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
+</head>
+
+<body onload="loadData()">
+  <nav class="navbar navbar-expand-md bg-primary navbar-dark">
+    <div class="container">
+      <a class="navbar-brand">
+        <i class="fa d-inline fa-lg fa-cloud"></i>
+        <b class="px-1">Xomic comiX</b>
+      </a>
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbar2SupportedContent">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse text-center justify-content-end" id="navbar2SupportedContent">
+        <form class="form-inline m-0">
+          <a class="nav-link" href="http://ec2-52-53-167-114.us-west-1.compute.amazonaws.com/">
+            <font color="black"> NewsFeed </font>
+          </a>
+          <a class="nav-link" href="/comics">
+            <font color="black"> Comics </font>
+          </a>
+          <a class="nav-link" href="/me">
+            <font color="black"> Profile </font>
+          </a>
+	  </form>
+	<form class="form-inline m-0" id="search-form" method="POST" action="/search">  
+          <input class="form-control mr-2" type="text" name="query" placeholder="Search">
+          <button class="btn btn-warning" type="submit">Search</button>
+        </form>
+        <a class="btn navbar-btn ml-2 text-white btn-secondary" href="/login">
+          <i class="fa d-inline fa-lg fa-user-circle-o"></i> Sign in</a>
+      </div>
+    </div>
+  </nav>
+  <div class="py-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8">
+          <div class="card">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-8">
+                  <h3 id="title">Title</h3>
+                </div>
+                <div class="col-md-4">
+                  <!--<h1 class="text-right">DATE</h1>-->
+                </div>
+              </div>
+              <h6 class="text-muted" id="dateTime">Date</h6>
+              <p id="content"></p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <img id="image" class="img-fluid d-block" src=""> </div>
+      </div>
+    </div>
+  </div>
+
+
+
+    <div id="commentSection" style="padding-left: 10em">
+
+          <!-- DYNAMICALLY CREATES COMMENTS DONT TOUCH -->
+
+    </div>
+      <script>
+
+        var obj1=[];
+        var obj2=[];
+
+	var userNames = [];
+        function loadData(){
+
+		var feedID = Number(location.href.match(/([^\/]*)\/*$/)[1]);
+		$.get("/data/newsfeed", function(result){
+			obj1 = JSON.parse(JSON.stringify(result));
+			var loc = obj1.length - feedID;
+			document.getElementById("title").innerHTML=obj1[loc].Title;
+			document.getElementById("content").innerHTML=obj1[loc].MoreInfo;
+			document.getElementById("dateTime").innerHTML= obj1[loc].DateTime;
+			document.getElementById("image").src=obj1[loc].Image;
+		});
+		
+		$.get("/data/newsfeed/" + feedID, function(resu){
+			
+			obj2 = JSON.parse(JSON.stringify(resu));
+			var l=obj2.length-1;
+			for(i=l; i>=0; i--){
+			var userName = document.createElement("a");
+			var dbName= document.createTextNode("default");
+			userName.setAttribute("href","");
+			userName.setAttribute("id", "name"+i);
+			userName.appendChild(dbName);
+			document.getElementById("commentSection").appendChild(userName);
+
+			var postDate = document.createElement("h6");
+			var dbDate = document.createTextNode(obj2[i].DateTime);
+			postDate.appendChild(dbDate);
+			document.getElementById("commentSection").appendChild(postDate);
+			var userComment = document.createElement("p");
+			var dbComment = document.createTextNode(obj2[i].Content);
+			userComment.appendChild(dbComment);
+			document.getElementById("commentSection").appendChild(userComment);
+			var breakLine = document.createElement("hr");
+			document.getElementById("commentSection").appendChild(breakLine);
+			}
+		});
+		var users = [];
+		$.get("/data/newsfeed/" + feedID, function(result){
+			obj2 = JSON.parse(JSON.stringify(result));
+           		var lastIndex = obj2.length-1;
+			var i;
+			obj2.forEach(function(item, index){
+				$.get("/data/users/" + item.User_ID, function(resul){
+					userNames[index]=resul.UserName;
+					document.getElementById("name"+index).innerHTML=resul.UserName;
+					document.getElementById("name"+index).href="http://ec2-52-53-167-114.us-west-1.compute.amazonaws.com/users/"+(item.User_ID);
+				});
+			});
+		}); 
+		
+          // get all the data from comments with == feed_ID 
+
+          // all comments are put into an array of items
+
+          // get size of array 
+
+          // for loop to go thru from back to front (newest to oldest)
+
+          // in for loop perform following update to create comments dynamically
+
+	}
+
+      </script>
+
+
+
+  <div class="py-5 bg-dark text-white" >
+    <div class="container">
+      <div class="row">
+        <div class="col-md-9">
+          <div class="blockquote">
+            <p class="mb-0">LeftOvers</p>
+            <div class="blockquote-footer text-white">Someone once told me we would rule the world; We told them screw that, we dont want this world</div>
+          </div>
+        </div>
+        <div class="col-4 col-md-1 align-self-center">
+          <a href="https://www.facebook.com" target="_blank">
+            <i class="fa fa-fw fa-facebook fa-3x text-white"></i>
+          </a>
+        </div>
+        <div class="col-4 col-md-1 align-self-center">
+          <a href="https://twitter.com" target="_blank">
+            <i class="fa fa-fw fa-twitter fa-3x text-white"></i>
+          </a>
+        </div>
+        <div class="col-4 col-md-1 align-self-center">
+          <a href="https://www.instagram.com" target="_blank">
+            <i class="fa fa-fw fa-instagram text-white fa-3x"></i>
+          </a>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12 mt-3 text-center">
+          <p>© Copyright 2018 LeftOvers LLC- All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
