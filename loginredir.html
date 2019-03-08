@@ -1,0 +1,14 @@
+<html>
+<head>
+<title id="title">A web page that points a browser to a different page after 2 seconds</title>
+<meta http-equiv="refresh" content="2; URL=http://ec2-52-53-167-114.us-west-1.compute.amazonaws.com/login">
+<meta name="keywords" content="automatic redirection">
+</head>
+<script>
+ alert('<%=Session["username"] %>');
+</script>
+<body>
+Redirecting to 
+<a href="http://ec2-52-53-167-114.us-west-1.compute.amazonaws.com/login">login page</a>.
+</body>
+</html>
