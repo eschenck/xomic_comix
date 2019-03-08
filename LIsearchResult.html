@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
+  <link rel="stylesheet" href="https://v40.pingendo.com/assets/4.0.0/default/theme.css" type="text/css"> </head>
+  <script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+
+
+<script type="text/javascript">  
+    var obj=[];
+    var uniq=[];
+    var final=[];
+    function upDateFields(){
+	$.get("/searchdata", function(result){
+	
+	if(result != "No Result"){
+           obj = JSON.parse(result);
+	   for(let i=0; i<obj.length; i++){
+		if(uniq.indexOf(obj[i].Comic_ID)==-1){
+			uniq.push(obj[i].Comic_ID);
+			final.push(obj[i]);
+		}
+	   }
+           var lastIndex = final.length - 1;
+           var count;
+           for(count = 0; count <= lastIndex ; ++count){
+
+
+            var image = document.createElement("IMG");
+            image.src = final[count].Image;
+	    var link = document.createElement("A");
+	    var l = document.createAttribute("href");
+	    l.value = "http://ec2-52-53-167-114.us-west-1.compute.amazonaws.com/comic/" + final[count].Comic_ID;
+	    link.setAttributeNode(l);
+	    link.appendChild(image);
+	    var col = document.createElement("div");
+	    var c = document.createAttribute("class");
+	    c.value = "col-md-3";
+	    col.setAttributeNode(c);
+	    var row = document.createElement("h4");
+	    row.appendChild(link);
+	    col.appendChild(row);
+
+            document.getElementById("result-section").appendChild(col);
+	    }
+	} else {
+	    var msg = document.createTextNode("No results :(");
+	    document.getElementById("result-section").appendChild(msg);
+	}
+        });
+       
+    }
+</script>
+    
+
+
+
+<body onload=upDateFields()>
+  <nav class="navbar navbar-expand-md bg-primary navbar-dark">
+    <div class="container">
+      <a class="navbar-brand">
+        <i class="fa d-inline fa-lg fa-cloud"></i>
+        <b class="px-1">Xomic comiX</b>
+      </a>
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbar2SupportedContent">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse text-center justify-content-end" id="navbar2SupportedContent">
+        <form class="form-inline m-0">
+          <a class="nav-link" href="http://ec2-52-53-167-114.us-west-1.compute.amazonaws.com/">
+            <font color="black"> NewsFeed </font>
+          </a>
+          <a class="nav-link" href="/comics">
+            <font color="black"> Comics </font>
+          </a>
+          <a class="nav-link" href="/me" id="profile-link">
+            <font color="black"> Profile </font>
+          </a>
+	  </form>
+	<form class="form-inline m-0" id="search-form" method="POST" action="/search">  
+          <input class="form-control mr-2" type="text" name="query" placeholder="Search">
+          <button class="btn btn-warning" type="submit">Search</button>
+        </form>
+        <a class="btn navbar-btn ml-2 text-white btn-secondary" href="/logout">
+          <i class="fa d-inline fa-lg fa-user-circle-o"></i> Logout</a>
+      </div>
+    </div>
+  </nav>
+    <div class="p-0 filter-dark" style="background-image: url('https://www.frontiersin.org/files/Articles/46474/fpsyg-04-00186-HTML/image_m/fpsyg-04-00186-g001.jpg');">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h1 class="display-1 text-center">COMICS</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="py-2">
+    <div class="container">
+      <div class="row" id="result-section">
+	
+
+
+      </div>
+    </div>
+  </div>
+  <div class="py-5 bg-dark text-white">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-9">
+          <div class="blockquote">
+            <p class="mb-0">LeftOvers</p>
+            <div class="blockquote-footer text-white">When were not busy being heroes; we like to sit back and still be heroes</div>
+          </div>
+        </div>
+        <div class="col-4 col-md-1 align-self-center">
+          <a href="https://www.facebook.com" target="_blank">
+            <i class="fa fa-fw fa-facebook fa-3x text-white"></i>
+          </a>
+        </div>
+        <div class="col-4 col-md-1 align-self-center">
+          <a href="https://twitter.com" target="_blank">
+            <i class="fa fa-fw fa-twitter fa-3x text-white"></i>
+          </a>
+        </div>
+        <div class="col-4 col-md-1 align-self-center">
+          <a href="https://www.instagram.com" target="_blank">
+            <i class="fa fa-fw fa-instagram text-white fa-3x"></i>
+          </a>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12 mt-3 text-center">
+          <p>© Copyright 2018 LeftOvers LLC- All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+
+</html>
