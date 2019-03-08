@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
+  <link rel="stylesheet" href="https://v40.pingendo.com/assets/4.0.0/default/theme.css" type="text/css">
+
+  <script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
+</head>
+
+
+<script>
+var obj;
+var feedIdInOrder = new Array(10); // to store the Feed_ID in array. post0 (title0,content0,etc.) has feed id at feedIdInOrder[0]
+function update(){
+	$.get("/data/newsfeed", function(result){
+		obj = result;
+		var idCount;
+         
+		for ( idCount =0 ;idCount < 10 ; ++idCount){
+			document.getElementById("title" + idCount).innerHTML = obj[idCount].Title;
+			document.getElementById("date" + idCount).innerHTML = obj[idCount].DateTime;
+			document.getElementById("content" + idCount).innerHTML = obj[idCount].Content;
+			document.getElementById("thumbUp" + idCount).innerHTML = "  " + obj[idCount].ThumbsUp;
+			document.getElementById("upVote" + idCount).action = "/upvote/"+obj[idCount].Feed_ID;
+			document.getElementById("thumbDown" + idCount).innerHTML = "  " + obj[idCount].ThumbsDown;
+			if(obj[idCount].Image){//if no image, use default
+				document.getElementById("newsImage" +idCount).src = obj[idCount].Image;
+			}
+		//	document.getElementById("comments" +idCount).innerHTML = "  " + obj[idCount].Comments;
+			feedIdInOrder[idCount] = Number(obj[idCount].Feed_ID);
+		}        
+  	});	
+}
+
+
+function commentSection0(){
+
+var finalID = feedIdInOrder[0];
+
+window.location.href = "http://ec2-52-53-167-114.us-west-1.compute.amazonaws.com/newsComment/" + finalID;
+            
+
+}
+function commentSection1(){
+
+var finalID = feedIdInOrder[1];
+
+window.location.href = "http://ec2-52-53-167-114.us-west-1.compute.amazonaws.com/newsComment/" + finalID;
+            
+
+}
+function commentSection2(){
+
+var finalID = feedIdInOrder[2];
+
+window.location.href = "http://ec2-52-53-167-114.us-west-1.compute.amazonaws.com/newsComment/" + finalID;
+            
+
+}
+function commentSection3(){
+
+var finalID = feedIdInOrder[3];
+
+window.location.href = "http://ec2-52-53-167-114.us-west-1.compute.amazonaws.com/newsComment/" + finalID;
+            
+
+}
+function commentSection4(){
+
+var finalID = feedIdInOrder[4];
+
+window.location.href = "http://ec2-52-53-167-114.us-west-1.compute.amazonaws.com/newsComment/" + finalID;
+            
+
+}
+function commentSection5(){
+    var finalID = feedIdInOrder[5];
+    window.location.href = "http://ec2-52-53-167-114.us-west-1.compute.amazonaws.com/newsComment/" + finalID;}
+    function commentSection6(){
+    var finalID = feedIdInOrder[6];
+    window.location.href = "http://ec2-52-53-167-114.us-west-1.compute.amazonaws.com/newsComment/" + finalID;}
+    function commentSection7(){
+    var finalID = feedIdInOrder[7];
+    window.location.href = "http://ec2-52-53-167-114.us-west-1.compute.amazonaws.com/newsComment/" + finalID;}
+    function commentSection8(){
+    var finalID = feedIdInOrder[8];
+    window.location.href = "http://ec2-52-53-167-114.us-west-1.compute.amazonaws.com/newsComment/" + finalID;}
+    function commentSection9(){
+    var finalID = feedIdInOrder[9];
+    window.location.href = "http://ec2-52-53-167-114.us-west-1.compute.amazonaws.com/newsComment/" + finalID;}
+
+
+
+</script>
+
+<style>
+
+#space{
+  padding-top: 50px;
+}
+
+
+#newsImage0{
+  height: 200px;
+  width: 200px;
+}
+#newsImage1{
+  height: 200px;
+  width: 200px;
+}
+
+#newsImage2{
+  height: 200px;
+  width: 200px;
+}
+
+#newsImage3{
+  height: 200px;
+  width: 200px;
+}
+
+#newsImage4{
+  height: 200px;
+  width: 200px;
+}
+#newsImage5{
+  height: 200px;
+  width: 200px;
+}
+#newsImage6{
+  height: 200px;
+  width: 200px;
+}
+
+#newsImage7{
+  height: 200px;
+  width: 200px;
+}
+
+#newsImage8{
+  height: 200px;
+  width: 200px;
+}
+
+#newsImage9{
+  height: 200px;
+  width: 200px;
+}
+a {
+    text-decoration: none;
+    display: inline-block;
+    padding: 8px 16px;
+}
+
+a:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+.previous {
+    background-color: #0AB9B9;
+    color: white;
+}
+
+.next {
+    background-color: #0AB9B9;
+    float: right;
+    color: white;
+}
+
+}
+</style>
+
+<body onload=update()>
+  <nav class="navbar navbar-expand-md bg-primary navbar-dark">
+    <div class="container">
+      <a class="navbar-brand">
+        <i class="fa d-inline fa-lg fa-cloud"></i>
+        <b class="px-1">Xomic comiX</b>
+      </a>
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbar2SupportedContent">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse text-center justify-content-end" id="navbar2SupportedContent">
+        <form class="form-inline m-0">
+          <a class="nav-link" href="http://ec2-52-53-167-114.us-west-1.compute.amazonaws.com/">
+            <font color="black"> NewsFeed </font>
+          </a>
+          <a class="nav-link" href="/comics">
+            <font color="black"> Comics </font>
+          </a>
+          <a class="nav-link" href="/me">
+            <font color="black"> Profile </font>
+          </a>
+	  </form>
+	<form class="form-inline m-0" id="search-form" method="POST" action="/search">  
+          <input class="form-control mr-2" type="text" name="query" placeholder="Search">
+          <button class="btn btn-warning" type="submit">Search</button>
+        </form>
+        <a class="btn navbar-btn ml-2 text-white btn-secondary" href="/login">
+          <i class="fa d-inline fa-lg fa-user-circle-o"></i> Sign in</a>
+      </div>
+    </div>
+  </nav>
+ 
+
+ <div class="p-0 filter-dark" style="background-image: url('https://www.frontiersin.org/files/Articles/46474/fpsyg-04-00186-HTML/image_m/fpsyg-04-00186-g001.jpg');">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h1 class="display-1 text-center">NEWS</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- NEWS POSTS START HERE -->
+
+   <div class="py-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8">
+          <div class="card">
+            <div class="card-body">
+              <h3 id="title0"></h3>
+                
+              <h6 class="text-muted" id="date0"></h6>
+              <p id="content0"></p>    
+	<form class="form-inline m-0" method="POST" action="" id="upVote0">
+              <button type="submit" class="btn btn-default btn-sm" name="action" value="up">
+                  <span class="fa fa-thumbs-o-up" id="thumbUp0"></span>
+                </button>
+	
+                <button type="submit" class="btn btn-default btn-sm" name="action" value="down">
+                  <span class="fa fa-thumbs-o-down" id="thumbDown0"></span> 
+                </button>
+                
+           
+                <button type="button" onclick="commentSection0()" class="btn btn-default btn-sm">
+                  <span title="Comments" class="fa fa-plus-square-o" id="comments0"> Read More...</span>
+                </button>  
+	</form>
+              
+                
+            </div>
+
+          </div>
+        </div>
+        <div class="col-md-4">
+          <img id="newsImage0" class="img-fluid d-block" src="">
+        </div>
+      </div>
+    </div>
+
+    <div id="space"> </div>
+    
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8">
+          <div class="card">
+            <div class="card-body">
+              <h3 id="title1"></h3>
+                
+              <h6 class="text-muted" id="date1"></h6>
+              <p id="content1"></p>
+	<form class="form-inline m-0" method="POST" action="" id="upVote1">
+              <button type="submit" class="btn btn-default btn-sm" name="action" value="up">
+                  <span class="fa fa-thumbs-o-up" id="thumbUp1"></span>
+                </button>
+	
+                <button type="submit" class="btn btn-default btn-sm" name="action" value="down">
+                  <span class="fa fa-thumbs-o-down" id="thumbDown1"></span> 
+                </button>
+                
+           
+                <button type="button" onclick="commentSection1()" class="btn btn-default btn-sm">
+                  <span title="Comments" class="fa fa-plus-square-o" id="comments1"> Read More...</span>
+                </button>  
+	</form>
+            </div>
+
+          </div>
+        </div>
+        <div class="col-md-4">
+          <img id="newsImage1" class="img-fluid d-block" src="">
+        </div>
+      </div>
+    </div>
+ 
+ <div id="space"> </div>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8">
+          <div class="card">
+            <div class="card-body">
+              <h3 id="title2"></h3>
+              <h6 class="text-muted" id="date2"></h6>
+              <p id="content2"></p>
+	<form class="form-inline m-0" method="POST" action="" id="upVote2">
+              <button type="submit" class="btn btn-default btn-sm" name="action" value="up">
+                  <span class="fa fa-thumbs-o-up" id="thumbUp2"></span>
+                </button>
+	
+                <button type="submit" class="btn btn-default btn-sm" name="action" value="down">
+                  <span class="fa fa-thumbs-o-down" id="thumbDown2"></span> 
+                </button>
+                
+           
+                <button type="button" onclick="commentSection2()" class="btn btn-default btn-sm">
+                  <span title="Comments" class="fa fa-plus-square-o" id="comments2"> Read More...</span>
+                </button>  
+	</form>
+            </div>
+
+          </div>
+        </div>
+        <div class="col-md-4">
+          <img id="newsImage2" class="img-fluid d-block" src="">
+        </div>
+      </div>
+    </div>
+ 
+ <div id="space"> </div>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8">
+          <div class="card">
+            <div class="card-body">
+              <h3 id="title3"></h3>
+                
+              <h6 class="text-muted" id="date3"></h6>
+              <p id="content3"></p>
+	<form class="form-inline m-0" method="POST" action="" id="upVote3">
+              <button type="submit" class="btn btn-default btn-sm" name="action" value="up">
+                  <span class="fa fa-thumbs-o-up" id="thumbUp3"></span>
+                </button>
+	
+                <button type="submit" class="btn btn-default btn-sm" name="action" value="down">
+                  <span class="fa fa-thumbs-o-down" id="thumbDown3"></span> 
+                </button>
+                
+           
+                <button type="button" onclick="commentSection3()" class="btn btn-default btn-sm">
+                  <span title="Comments" class="fa fa-plus-square-o" id="comments3"> Read More...</span>
+                </button>  
+	</form>
+            </div>
+
+          </div>
+        </div>
+        <div class="col-md-4">
+          <img id="newsImage3" class="img-fluid d-block" src="">
+        </div>
+      </div>
+    </div>
+
+<div id="space"> </div>
+  
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8">
+          <div class="card">
+            <div class="card-body">
+              <h3 id="title4"></h3>
+                
+              <h6 class="text-muted" id="date4"></h6>
+              <p id="content4"></p>
+	<form class="form-inline m-0" method="POST" action="" id="upVote4">
+              <button type="submit" class="btn btn-default btn-sm" name="action" value="up">
+                  <span class="fa fa-thumbs-o-up" id="thumbUp4"></span>
+                </button>
+	
+                <button type="submit" class="btn btn-default btn-sm" name="action" value="down">
+                  <span class="fa fa-thumbs-o-down" id="thumbDown4"></span> 
+                </button>
+                
+           
+                <button type="button" onclick="commentSection4()" class="btn btn-default btn-sm">
+                  <span title="Comments" class="fa fa-plus-square-o" id="comments4"> Read More...</span>
+                </button>  
+	</form>
+            </div>
+
+          </div>
+        </div>
+        <div class="col-md-4">
+          <img id="newsImage4" class="img-fluid d-block" src="">
+        </div>
+      </div>
+    </div>
+  
+
+<div id="space"> </div>
+
+ 
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8">
+          <div class="card">
+            <div class="card-body">
+              <h3 id="title5"></h3>
+              <h6 class="text-muted" id="date5"></h6>
+              <p id="content5"></p>
+              <form class="form-inline m-0" method="POST" action="" id="upVote5">
+                <button type="submit" class="btn btn-default btn-sm" name="action" value="up">
+                  <span class="fa fa-thumbs-o-up" id="thumbUp5"></span>
+                </button>
+                <button type="submit" class="btn btn-default btn-sm" name="action" value="down">
+                  <span class="fa fa-thumbs-o-down" id="thumbDown5"></span>
+                </button>
+                <button type="button" class="btn btn-default btn-sm" onclick="commentSection5()">
+                  <span class="fa fa-plus-square-o" id="comments5" title="Comments"> Read More...</span>
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <img id="newsImage5" class="img-fluid d-block" src=""> </div>
+      </div>
+    </div>
+    <div id="space"> </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8">
+          <div class="card">
+            <div class="card-body">
+              <h3 id="title6"></h3>
+              <h6 class="text-muted" id="date6"></h6>
+              <p id="content6"></p>
+              <form class="form-inline m-0" method="POST" action="" id="upVote6">
+                <button type="submit" class="btn btn-default btn-sm" name="action" value="up">
+                  <span class="fa fa-thumbs-o-up" id="thumbUp6"></span>
+                </button>
+                <button type="submit" class="btn btn-default btn-sm" name="action" value="down">
+                  <span class="fa fa-thumbs-o-down" id="thumbDown6"></span>
+                </button>
+                <button type="button" class="btn btn-default btn-sm" onclick="commentSection6()">
+                  <span class="fa fa-plus-square-o" id="comments6" title="Comments"> Read More...</span>
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <img id="newsImage6" class="img-fluid d-block" src=""> </div>
+      </div>
+    </div>
+    <div id="space"> </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8">
+          <div class="card">
+            <div class="card-body">
+              <h3 id="title7"></h3>
+              <h6 class="text-muted" id="date7"></h6>
+              <p id="content7"></p>
+              <form class="form-inline m-0" method="POST" action="" id="upVote7">
+                <button type="submit" class="btn btn-default btn-sm" name="action" value="up">
+                  <span class="fa fa-thumbs-o-up" id="thumbUp7"></span>
+                </button>
+                <button type="submit" class="btn btn-default btn-sm" name="action" value="down">
+                  <span class="fa fa-thumbs-o-down" id="thumbDown7"></span>
+                </button>
+                <button type="button" class="btn btn-default btn-sm" onclick="commentSection7()">
+                  <span class="fa fa-plus-square-o" id="comments7" title="Comments"> Read More...</span>
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <img id="newsImage7" class="img-fluid d-block" src=""> </div>
+      </div>
+    </div>
+    <div id="space"> </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8">
+          <div class="card">
+            <div class="card-body">
+              <h3 id="title8"></h3>
+              <h6 class="text-muted" id="date8"></h6>
+              <p id="content8"></p>
+              <form class="form-inline m-0" method="POST" action="" id="upVote8">
+                <button type="submit" class="btn btn-default btn-sm" name="action" value="up">
+                  <span class="fa fa-thumbs-o-up" id="thumbUp8"></span>
+                </button>
+                <button type="submit" class="btn btn-default btn-sm" name="action" value="down">
+                  <span class="fa fa-thumbs-o-down" id="thumbDown8"></span>
+                </button>
+                <button type="button" class="btn btn-default btn-sm" onclick="commentSection8()">
+                  <span class="fa fa-plus-square-o" id="comments8" title="Comments"> Read More...</span>
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <img id="newsImage8" class="img-fluid d-block" src=""> </div>
+      </div>
+    </div>
+    <div id="space"> </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8">
+          <div class="card">
+            <div class="card-body">
+              <h3 id="title9"></h3>
+              <h6 class="text-muted" id="date9"></h6>
+              <p id="content9"></p>
+              <form class="form-inline m-0" method="POST" action="" id="upVote9">
+                <button type="submit" class="btn btn-default btn-sm" name="action" value="up">
+                  <span class="fa fa-thumbs-o-up" id="thumbUp9"></span>
+                </button>
+                <button type="submit" class="btn btn-default btn-sm" name="action" value="down">
+                  <span class="fa fa-thumbs-o-down" id="thumbDown9"></span>
+                </button>
+                <button type="button" class="btn btn-default btn-sm" onclick="commentSection9()">
+                  <span class="fa fa-plus-square-o" id="comments9" title="Comments"> Read More...</span>
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <img id="newsImage9" class="img-fluid d-block" src=""> </div>
+      </div>
+    </div>
+  </div>
+<!-- END OF NEWS POSTS -->
+
+  <div class="">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-6 col-md-2 bg-dark py-2">
+       <a href="http://ec2-52-53-167-114.us-west-1.compute.amazonaws.com/comic/2">   <img class="d-block mx-auto img-fluid img-thumbnail" src="https://bavatuesdays.com/wp-content/uploads/2012/03/Hulk315.gif" width="120"></a>
+        </div>
+        <div class="col-6 col-md-2 bg-dark py-2">
+       <a href="http://ec2-52-53-167-114.us-west-1.compute.amazonaws.com/comic/10">   <img class="d-block mx-auto img-fluid img-thumbnail" src="https://www.librairiezbookstore.com/img/p/6/3/0/5/6305.gif" width="120"></a>
+        </div>
+        <div class="col-md-2 col-6 bg-dark py-2">
+       <a href="http://ec2-52-53-167-114.us-west-1.compute.amazonaws.com/comic/9">   <img class="img-fluid d-block mx-auto img-thumbnail" src="https://i.pinimg.com/originals/25/f9/bc/25f9bcd0983bec7506953da008798aff.gif" width="120"></a>
+        </div>
+        <div class="col-md-2 col-6 bg-dark py-2">
+       <a href="http://ec2-52-53-167-114.us-west-1.compute.amazonaws.com/comic/7">   <img class="img-fluid d-block mx-auto img-thumbnail" src="http://www.time-warp.com/wp-content/uploads/2017/08/Guardians.gif" width="120"></a>
+        </div>
+        <div class="col-md-2 col-6 bg-dark py-2">
+       <a href="http://ec2-52-53-167-114.us-west-1.compute.amazonaws.com/comic/4">   <img class="d-block mx-auto img-fluid img-thumbnail" src="https://assets.comic-odyssey.com/products/covers/000/017/547/original/anigif_enhanced-buzz-11961-1370114393-0.gif?1510197204" width="120"></a>
+        </div>
+        <div class="col-md-2 col-6 bg-dark py-2">
+       <a href="http://ec2-52-53-167-114.us-west-1.compute.amazonaws.com/comic/3">   <img class="d-block mx-auto img-fluid img-thumbnail" src="https://media.giphy.com/media/YTeeS9luDnwEo/source.gif" width="120"></a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="py-5 bg-dark text-white">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-9">
+          <div class="blockquote">
+            <p class="mb-0">LeftOvers</p>
+            <div class="blockquote-footer text-white">Someone once told me we would rule the world; We told them screw that, we dont want this world</div>
+          </div>
+        </div>
+        <div class="col-4 col-md-1 align-self-center">
+          <a href="https://www.facebook.com" target="_blank">
+            <i class="fa fa-fw fa-facebook fa-3x text-white"></i>
+          </a>
+        </div>
+        <div class="col-4 col-md-1 align-self-center">
+          <a href="https://twitter.com" target="_blank">
+            <i class="fa fa-fw fa-twitter fa-3x text-white"></i>
+          </a>
+        </div>
+        <div class="col-4 col-md-1 align-self-center">
+          <a href="https://www.instagram.com" target="_blank">
+            <i class="fa fa-fw fa-instagram text-white fa-3x"></i>
+          </a>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12 mt-3 text-center">
+          <p><a href="http://leftoversllc.s3-website-us-west-1.amazonaws.com/">? Copyright 2018 LeftOvers LLC- All rights reserved. </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+
+</body>
+
+</html>
